@@ -1,0 +1,17 @@
+
+bank.df <- read.csv('C:\\Users\\Riley Backs\\Desktop\\Predictive Analytics\\UniversalBank.csv')
+bank.df <- bank.df[ , -c(1,5)]
+bank.df$Education <- factor(bank.df$Education, levels = c(1, 2, 3),
+    labels = c("Undergrad", "Graduate", "Advanced/Professional")) 
+
+#partition data
+set.seed(2)
+train.index <- sample(c(1:dim(bank.df)[1]), dim(bank.df)[1]*0.6)
+train.df <- bank.df[train.index, ]
+valid.df <- bank.df[-train.index, ]
+
+#run log regression 
+#regression
+logit.reg <- glm(Personal.Loan ~ ., data = train.df, family = "binomial")
+options(scipen=999)
+summary(logit.reg)
